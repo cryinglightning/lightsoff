@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script>
+function toggle(i,j) {
+      if (i >= 0 && j >= 0 && i <= 4 && j <= 4) {
+      b=document.getElementById("but_" + i + j)
+      t = b.innerHTML
+      if (t=="X") {b.innerHTML = "O";
+                   b.setAttribute( "style", "color:red; background-color:yellow" )
+                  }
+      if (t=="O") {b.innerHTML = "X";
+                   b.setAttribute( "style", "color:white; background-color:black" )
+                  }
+      }
+}
+
+function press(i,j) {
+       toggle(i,j);
+       toggle(i-1,j);
+       toggle(i+1,j);
+       toggle(i,j-1);
+       toggle(i,j+1);
+       checkAllOff()
+}
+
+function checkAllOff() {
+		var buttons = document.getElementsByClassName("button");
+		var n = 0;
+		for (i = 0; i < buttons.length; i++) {
+			if (buttons[i].innerHTML == "X") {n = n+1}
+			}
+		if (n == 25) {
+	        var d = document.getElementById("congrats");
+            d.innerHTML = d.innerHTML + "<h3 style=\"text-align:center\"><b>Smashed it</b></h3>"
+            }
+        else if (n != 25) {
+	        var d = document.getElementById("congrats");
+            d.innerHTML = ""
+            }
+}
+		
+function generateGrid() {
+        var d = document.getElementById("button-grid");
+        var table = document.createElement("table");
+        d.appendChild(table);
+        table.align = "center";
+        for (var i = 0; i < 5; i++) {
+                var row = document.createElement("tr");
+                for (var j = 0; j < 5; j++) {
+                        var cell = document.createElement("td");
+                        cell.innerHTML = "<button type=button class=button id=but_" + i + j +
+                                         " onclick=\"press(" +i + ',' +j + ")\"" + 
+                                         " style=\"color:red; background-color:yellow\"" +
+                                         ">O</button>" ;
+                        row.appendChild(cell);
+                }
+                table.appendChild(row);
+        }
+        toggle(2,2) // Set middle button to off state (otherwise it seems to be impossible).
+}
+
+window.onload = function() {
+        generateGrid();
+};
+</script> 
+<title>Lights Off Puzzle</title>
+</head> 
+
+<body> 
+<h1 style="text-align:center"><b>Lights Off</b></h1>
+<h2 style="text-align:center"><b>Click the buttons until they are all black...</b></h2>
+<div id="button-grid">
+</div>
+<div id="congrats">
+</div>
+</body>
+
+</html>
